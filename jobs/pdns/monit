@@ -1,0 +1,5 @@
+check process pdns
+  with pidfile /var/vcap/sys/run/pdns/pid
+  start program "/var/vcap/jobs/pdns/bin/ctl start"
+  stop program "/var/vcap/jobs/pdns/bin/ctl stop"
+  group vcap

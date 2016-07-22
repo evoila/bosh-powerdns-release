@@ -1,5 +1,6 @@
 ---
 name: pdns
 templates:
+  ctl.erb: bin/ctl
 
 packages:
