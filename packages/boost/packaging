@@ -3,6 +3,5 @@ set -ex
 
 tar xf boost/boost_1_61_0.tar.bz2
 cd boost_1_61_0
-mkdir /tmp/junk
 ./bootstrap.sh --prefix=$BOSH_INSTALL_TARGET
-./b2
+./b2 install
