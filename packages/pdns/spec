@@ -1,0 +1,8 @@
+---
+name: pdns
+
+dependencies:
+- boost
+
+files:
+ - pdns/pdns-4.0.0.tar.bz2 # from https://downloads.powerdns.com/releases/pdns-4.0.0.tar.bz2
