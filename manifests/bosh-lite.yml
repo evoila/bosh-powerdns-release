@@ -1,0 +1,48 @@
+---
+name: pdns
+
+director_uuid: 28539132-6d43-4e1b-bf40-f2ce032ee9f8
+
+releases:
+- name: pdns
+  version: latest
+
+instance_groups:
+- name: pdns
+  instances: 1
+  resource_pool: pdns
+  networks:
+  - name: manual
+    static_ips: &static_ip [10.244.8.64]
+  jobs:
+  - release: pdns
+    name: pdns
+    properties: {}
+
+networks:
+- name: manual
+  type: manual
+  subnets:
+  - range: 10.244.8.0/24
+    gateway: 10.244.8.1
+    static: *static_ip
+
+resource_pools:
+- name: pdns
+  network: manual
+  cloud_properties: {}
+  stemcell:
+    name: bosh-warden-boshlite-ubuntu-trusty-go_agent
+    version: latest
+
+compilation:
+  workers: 1
+  network: manual
+  cloud_properties: {}
+
+update:
+  canaries: 1
+  max_in_flight: 3
+  serial: false
+  canary_watch_time: 1000-60000
+  update_watch_time: 1000-60000
