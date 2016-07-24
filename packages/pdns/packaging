@@ -5,7 +5,7 @@ sleep 1800 || true
 
 tar xf pdns/pdns-4.0.0.tar.bz2
 cd pdns-4.0.0/
-export CPPFLAGS="-I/var/vcap/packages/boost/include/boost/"
+export CPPFLAGS="-I/var/vcap/packages/boost/include"
 export LDFLAGS="-L/var/vcap/packages/boost/lib/"
 bash configure --prefix=$BOSH_INSTALL_TARGET
 make
