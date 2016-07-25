@@ -1,8 +1,6 @@
 # abort script on any command that exits with a non zero value
 set -e
 
-sleep 1800 || true
-
 tar xf pdns/pdns-4.0.0.tar.bz2
 cd pdns-4.0.0/
 export CPPFLAGS="-I/var/vcap/packages/boost/include"
