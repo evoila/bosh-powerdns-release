@@ -16,11 +16,14 @@
 
 set -e
 
-exec_prefix=@exec_prefix@
-BINARYPATH=@bindir@
-SBINARYPATH=@sbindir@
-SOCKETPATH=@socketdir@
+prefix=/var/vcap/packages/pdns
+exec_prefix=${prefix}
+BINARYPATH=${exec_prefix}/bin
+SBINARYPATH=${exec_prefix}/sbin
+SOCKETPATH=/var/run
 DAEMON_ARGS=""
+PIDFILE="/var/vcap/sys/run/pdns.pid"
+LOGDIR="/var/vcap/sys/log/pdns"
 
 [ -f "$SBINARYPATH/pdns_server" ] || exit 0
 
@@ -32,13 +35,16 @@ DAEMON_ARGS=""
 mkdir -p $SOCKETPATH
 cd $SOCKETPATH
 suffix=$(basename $0 | cut -d- -f2- -s)
-if [ -n "$suffix" ] 
+if [ -n "$suffix" ]
 then
 	EXTRAOPTS=--config-name=$suffix
 	PROGNAME=pdns-$suffix
 else
 	PROGNAME=pdns
 fi
+
+# make sure LOG dir exists
+mkdir -p $LOGDIR
 
 pdns_server="$SBINARYPATH/pdns_server $DAEMON_ARGS $EXTRAOPTS"
 
@@ -52,26 +58,21 @@ doPC ping || NOTRUNNING=$?
 
 case "$1" in
 	status)
-		if test "$NOTRUNNING" = "0" 
-		then 
+		if test "$NOTRUNNING" = "0"
+		then
 			doPC status
 			echo $ret
 		else
 			echo "not running"
 			exit 3
-		fi 
-	;;	
+		fi
+	;;
 
 	stop)
 		echo -n "Stopping PowerDNS authoritative nameserver: "
-		if test "$NOTRUNNING" = "0" 
-		then 
-			doPC quit
-			echo $ret
-		else
-			echo "not running"
-		fi 
-	;;		
+		# The monit way of stopping
+		kill $(cat $PIDFILE)
+	;;
 
 
 	force-stop)
@@ -82,28 +83,21 @@ case "$1" in
 
 	start)
 		echo -n "Starting PowerDNS authoritative nameserver: "
-		if test "$NOTRUNNING" = "0" 
-		then 
-			echo "already running"
-		else
-			if $pdns_server --daemon --guardian=yes
-			then
-				echo "started"	
-	            	else
-				echo "starting failed"
-		                exit 1
-			fi
-		fi 
-	;;		
+		# The monit way of starting up
+		( echo $BASHPID > $PIDFILE; exec \
+                        > $LOGDIR/pdns_server.stdout.log \
+                        2> $LOGDIR/pdns_server.stderr.log \
+                        $pdns_server --daemon=no --guardian=yes --config-dir=/var/vcap/jobs/pdns/etc ) &
+	;;
 
 	force-reload | restart)
 		echo -n "Restarting PowerDNS authoritative nameserver: "
-		if test "$NOTRUNNING" = "1" 
-		then 
+		if test "$NOTRUNNING" = "1"
+		then
 			echo "not running, starting"
 		else
-			
-			echo -n stopping and waiting.. 
+
+			echo -n stopping and waiting..
 			doPC quit
 			sleep 3
 			echo done
@@ -111,60 +105,60 @@ case "$1" in
 		$0 start
 	;;
 
-	reload) 
+	reload)
 		echo -n "Reloading PowerDNS authoritative nameserver: "
-		if test "$NOTRUNNING" = "0" 
-		then 
+		if test "$NOTRUNNING" = "0"
+		then
 			doPC cycle
 			echo requested reload
 		else
 			echo not running yet
 			$0 start
-		fi 
-	;;		
-		
+		fi
+	;;
+
 	monitor)
-		if test "$NOTRUNNING" = "0" 
-		then 
+		if test "$NOTRUNNING" = "0"
+		then
 			echo "already running"
 		else
 			$pdns_server --daemon=no --guardian=no --control-console --loglevel=9
-		fi 
-	;;		
+		fi
+	;;
 
 	dump)
-		if test "$NOTRUNNING" = "0" 
-		then 
+		if test "$NOTRUNNING" = "0"
+		then
 			doPC list
 			echo $ret
 		else
 			echo "not running"
-		fi 
-	;;		
+		fi
+	;;
 
 	show)
 		if [ $# -lt 2 ]
 		then
 			echo Insufficient parameters
 			exit
-		fi 
-		if test "$NOTRUNNING" = "0" 
-		then 
+		fi
+		if test "$NOTRUNNING" = "0"
+		then
 			echo -n "$2="
 			doPC show $2 ; echo $ret
 		else
 			echo "not running"
-		fi 
-	;;		
+		fi
+	;;
 
 	mrtg)
 		if [ $# -lt 2 ]
 		then
 			echo Insufficient parameters
 			exit
-		fi 
-		if test "$NOTRUNNING" = "0" 
-		then 
+		fi
+		if test "$NOTRUNNING" = "0"
+		then
 			doPC show $2 ; echo $ret
 			if [ "$3x" != "x" ]
 			then
@@ -176,24 +170,24 @@ case "$1" in
 			echo PowerDNS daemon
 		else
 			echo "not running"
-		fi 
-	
-	;;		
+		fi
+
+	;;
 
 	cricket)
 		if [ $# -lt 2 ]
 		then
 			echo Insufficient parameters
 			exit
-		fi 
-		if test "$NOTRUNNING" = "0" 
-		then 
+		fi
+		if test "$NOTRUNNING" = "0"
+		then
 			doPC show $2 ; echo $ret
 		else
 			echo "not running"
-		fi 
-	
-	;;		
+		fi
+
+	;;
 
 
 
@@ -202,5 +196,3 @@ case "$1" in
 
 	;;
 esac
-
-
