@@ -2,7 +2,42 @@
 name: pdns
 templates:
   ctl.erb: bin/ctl
+  named.conf.erb: named.conf
+  pdns.conf.erb: etc/pdns.conf
+  pipe.conf.erb: etc/pipe.conf
+  pipe.erb: bin/pipe
+
 
 packages:
 - boost
 - pdns
+
+properties:
+  named_conf:
+    default: ''
+    description: |
+      The contents of named.conf (PowerDNS's BIND backend's configuration file)
+      If populated, change the pdns_conf property to use bind, e.g.
+        launch=bind:first,pipe:second
+        slave=yes
+        bind-first-config=/var/vcap/jobs/pdns/etc/named.conf
+        pipe-second-command=/var/vcap/jobs/pdns/bin/pipe /var/vcap/jobs/pdns/etc/pipe.conf
+  pdns_conf:
+    default: |
+      launch=pipe
+      pipe-command=/var/vcap/jobs/pdns/bin/pipe /var/vcap/jobs/pdns/etc/pipe.conf
+    description: "The contents of pdns.conf (PowerDNS's configuration file)"
+  pipe:
+    default: |
+      #!/bin/bash
+      sleep 86400
+    description: |
+      The contents of pipe (PowerDNS's pipe backend's script).
+      A good example is the xip-pdns pipe backend:
+      https://github.com/basecamp/xip-pdns/blob/master/bin/xip-pdns
+  pipe_conf:
+    default: ''
+    description: |
+      The contents of [optional] pipe.conf (PowerDNS's pipe backend's configuration file)
+      A good example is the xip-pdns pipe backend's sample configuration file:
+      https://github.com/basecamp/xip-pdns/blob/master/etc/xip-pdns.conf.example
