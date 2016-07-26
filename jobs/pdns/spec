@@ -35,6 +35,7 @@ properties:
         bind-first-config=/var/vcap/jobs/pdns/etc/named.conf
         pipe-second-command=/var/vcap/jobs/pdns/bin/pipe /var/vcap/jobs/pdns/etc/pipe.conf
   pipe:
+    default: ''
     description: |
       The contents of pipe (PowerDNS's pipe backend's script).
       A good example is the xip-pdns pipe backend:
