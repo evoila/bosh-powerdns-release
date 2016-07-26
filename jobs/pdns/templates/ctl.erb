@@ -85,9 +85,9 @@ case "$1" in
 		echo -n "Starting PowerDNS authoritative nameserver: "
 		# The monit way of starting up
 		( echo $BASHPID > $PIDFILE; exec \
-                        > $LOGDIR/pdns_server.stdout.log \
-                        2> $LOGDIR/pdns_server.stderr.log \
-                        $pdns_server --daemon=no --guardian=yes --config-dir=/var/vcap/jobs/pdns/etc ) &
+			>> $LOGDIR/pdns_server.stdout.log \
+			2>> $LOGDIR/pdns_server.stderr.log \
+			$pdns_server --daemon=no --guardian=yes --config-dir=/var/vcap/jobs/pdns/etc ) &
 	;;
 
 	force-reload | restart)
