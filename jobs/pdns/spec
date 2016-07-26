@@ -2,10 +2,11 @@
 name: pdns
 templates:
   ctl.erb: bin/ctl
-  named.conf.erb: named.conf
+  named.conf.erb: etc/named.conf
   pdns.conf.erb: etc/pdns.conf
   pipe.conf.erb: etc/pipe.conf
   pipe.erb: bin/pipe
+  pipe.example.com.pl: bin/pipe.example.com.pl
 
 
 packages:
@@ -17,20 +18,23 @@ properties:
     default: ''
     description: |
       The contents of named.conf (PowerDNS's BIND backend's configuration file)
-      If populated, change the pdns_conf property to use bind, e.g.
+  pdns_conf:
+    default: |
+      launch=pipe
+      pipe-command=/var/vcap/jobs/pdns/bin/pipe.example.com.pl
+    description: |
+      The contents of pdns.conf (PowerDNS's configuration file).
+      The default configuration configures an authoritative server for
+      example.com, which can be queried via `nslookup webserver.example.com. instance's-ip`
+      or `dig webserver.example.com. @instance's-ip`.
+
+      If using a combination of the bind and pipe backends, `pdns_conf` should
+      look something like this:
         launch=bind:first,pipe:second
         slave=yes
         bind-first-config=/var/vcap/jobs/pdns/etc/named.conf
         pipe-second-command=/var/vcap/jobs/pdns/bin/pipe /var/vcap/jobs/pdns/etc/pipe.conf
-  pdns_conf:
-    default: |
-      launch=pipe
-      pipe-command=/var/vcap/jobs/pdns/bin/pipe /var/vcap/jobs/pdns/etc/pipe.conf
-    description: "The contents of pdns.conf (PowerDNS's configuration file)"
   pipe:
-    default: |
-      #!/bin/bash
-      sleep 86400
     description: |
       The contents of pipe (PowerDNS's pipe backend's script).
       A good example is the xip-pdns pipe backend:
