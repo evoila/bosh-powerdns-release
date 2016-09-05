@@ -4,6 +4,7 @@ templates:
   ctl.erb: bin/ctl
   named.conf.erb: etc/named.conf
   pdns.conf.erb: etc/pdns.conf
+  pipe.conf.erb: etc/pipe.conf
   pipe.erb: bin/pipe
   pipe.example.com.pl: bin/pipe.example.com.pl
 
@@ -37,4 +38,11 @@ properties:
     default: ''
     description: |
       The contents of pipe (PowerDNS's pipe backend's script).
-      location: /var/vcap/jobs/pdns/bin/pipe
+      A good example is the xip-pdns pipe backend:
+      https://github.com/basecamp/xip-pdns/blob/master/bin/xip-pdns
+  pipe_conf:
+    default: ''
+    description: |
+      The contents of [optional] pipe.conf (PowerDNS's pipe backend's configuration file)
+      A good example is the xip-pdns pipe backend's sample configuration file:
+      https://github.com/basecamp/xip-pdns/blob/master/etc/xip-pdns.conf.example
