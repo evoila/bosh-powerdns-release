@@ -63,9 +63,8 @@ cd ~/workspace
 git clone git@github.com:cloudfoundry-community/pdns-release.git
 cd ~/workspace/pdns-release
 git pull -r # unnecessary on a freshly-cloned release
-mkdir -p src/pdns
 curl -L https://downloads.powerdns.com/releases/pdns-4.0.1.tar.bz2 \
-  -o src/pdns/pdns-4.0.1.tar.bz2
+  -o ~/Downloads/pdns-4.0.1.tar.bz2
 ```
 
 We need to update our PowerDNS package to update all occurrences of 4.0.0 to
@@ -80,14 +79,13 @@ git diff
 Add the blob:
 
 ```bash
-bosh add-blob src/pdns/pdns-4.0.1.tar.bz2 pdns/pdns-4.0.1.tar.bz2
+bosh add-blob ~/Downloads/pdns-4.0.1.tar.bz2 pdns/pdns-4.0.1.tar.bz2
 ```
 
 Remove the old blob:
 
 ```bash
 vim config/blobs.yml # delete `pdns-4.0.0.tar.bz2` stanza
-rm -fr .blobs/ blobs/ # optional, tests the download of blobs
 ```
 
 Create development release and upload:
@@ -128,7 +126,7 @@ Create the final release; include the tarball which we will upload to GitHub.
 Make the version correspond to the PowerDNS version:
 
 ```bash
-bosh create-release --final --with-tarball --version 4.0.1
+bosh create-release --final --tarball --version 4.0.1 --force
 ```
 
 Check your changes in and commit:
@@ -136,7 +134,7 @@ Check your changes in and commit:
 ```bash
 git add -N .
 git add -p
-git commit -vm 'PowerDNS release 4.0.1'
+git commit -m 'PowerDNS release 4.0.1'
 git tag v4.0.1
 ```
 
@@ -157,7 +155,7 @@ git push --tags
 ```
 
 Create a new release on GitHub; upload the release tarball
-(`releases/pdns/pdns-2.tgz`)
+(`releases/pdns/pdns-4.0.1.tgz`)
 
 ### NOTES/BUGS:
 
