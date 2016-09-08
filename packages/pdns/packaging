@@ -1,8 +1,8 @@
 # abort script on any command that exits with a non zero value
 set -e
 
-tar xf pdns/pdns-4.0.1.tar.bz2
-cd pdns-4.0.1/
+tar xf pdns/pdns-4.0.0.tar.bz2
+cd pdns-4.0.0/
 export CPPFLAGS="-I/var/vcap/packages/boost/include"
 export LDFLAGS="-L/var/vcap/packages/boost/lib/"
 ./configure --prefix=$BOSH_INSTALL_TARGET --with-modules="bind random"
