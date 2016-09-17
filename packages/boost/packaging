@@ -5,4 +5,4 @@ tar xf boost/boost_1_61_0.tar.bz2
 cd boost_1_61_0
 ./bootstrap.sh --prefix=$BOSH_INSTALL_TARGET
 # build always fails because it's missing unnecessary libraries; we make it succeed
-./b2 install || true
+./b2 -j 8 install || true
