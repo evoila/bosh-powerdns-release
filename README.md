@@ -28,7 +28,7 @@ sudo bin/add-route
 ### 1. Upload the PowerDNS release
 
 ```
-bosh upload-release https://github.com/cloudfoundry-community/pdns-release/releases/download/v1/pdns-1.tgz
+bosh upload-release https://github.com/cloudfoundry-community/pdns-release/releases/download/v4.0.1/pdns-4.0.1.tgz
 ```
 
 ### 2. Deploy PowerDNS server via the sample manifest
