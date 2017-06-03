@@ -61,3 +61,4 @@ dig +short SOA example.com @10.244.8.64
   syslog's `DAEMON` facility (typically `/var/log/daemon.log`)
 - The release has been deployed to VirtualBox (BOSH Lite) AWS, GCE, with CentOS
   and Ubuntu stemcells.
+- Set `local-ipv6=` in [pdns.conf](https://github.com/PowerDNS/pdns/issues/4568) unless you've enabled IPv6 in your stemcell
