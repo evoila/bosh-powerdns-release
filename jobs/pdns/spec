@@ -7,11 +7,14 @@ templates:
   pipe.conf.erb: etc/pipe.conf
   pipe.erb: bin/pipe
   pipe.example.com.pl: bin/pipe.example.com.pl
+  post-start.erb: bin/post-start
+  pre-start.erb: bin/pre-start
 
 
 packages:
 - boost
 - pdns
+- sqlite
 
 properties:
   named_conf:
@@ -22,6 +25,7 @@ properties:
     default: |
       launch=pipe
       pipe-command=/var/vcap/jobs/pdns/bin/pipe.example.com.pl
+      bind-dnssec-db=/var/vcap/jobs/pdns/etc/dnssec.db
     description: |
       The contents of pdns.conf (PowerDNS's configuration file).
       The default configuration configures an authoritative server for
@@ -46,3 +50,12 @@ properties:
       The contents of [optional] pipe.conf (PowerDNS's pipe backend's configuration file)
       A good example is the xip-pdns pipe backend's sample configuration file:
       https://github.com/basecamp/xip-pdns/blob/master/etc/xip-pdns.conf.example
+  dnssec.enabled:
+    default: true
+    description: |
+      Use an SQLite database (/var/vcap/job/pdns/etc/dnssec.db) for DNSSEC
+      Make sure to configure bind-dnssec-db option in your pdns.conf
+  dnssec.zones:
+    default: []
+    description: |
+      List of zones to enable for DNSSEC

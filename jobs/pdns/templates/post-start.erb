@@ -1,0 +1,10 @@
+#!/bin/bash
+set -e
+
+JOB_NAME=pdns
+JOB_DIR="/var/vcap/jobs/$JOB_NAME"
+PACKAGE_DIR="/var/vcap/packages/$JOB_NAME"
+
+<% p("dnssec.zones").each do |zone| %>
+"$PACKAGE_DIR/bin/pdnsutil" --config-dir="$JOB_DIR/etc" secure-zone "<%= zone %>"
+<% end %>

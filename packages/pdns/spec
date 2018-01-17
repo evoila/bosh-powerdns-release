@@ -3,6 +3,7 @@ name: pdns
 
 dependencies:
 - boost
+- sqlite
 
 files:
  - pdns/pdns-4.0.4.tar.bz2 # from https://downloads.powerdns.com/releases/pdns-4.0.4.tar.bz2
