@@ -59,12 +59,12 @@ properties:
     default: []
     description: |
       List of zones to enable for DNSSEC
-  dnssec.keys:
-    description:
-    example:
-    - zone: example.com
-      type: zsk
-      active: active
-      key: |
-        -----BEGIN-----
-        -----END-----
+    example: |
+      - zone: example.com
+        keys:
+          - type: zsk
+            active: active
+            key: |
+              Private-key-format: v1.2
+              ...
+
