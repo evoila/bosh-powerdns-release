@@ -5,6 +5,17 @@ JOB_NAME=pdns
 JOB_DIR="/var/vcap/jobs/$JOB_NAME"
 PACKAGE_DIR="/var/vcap/packages/$JOB_NAME"
 
+export PATH="${PATH}:${PACKAGE_DIR}"
+
 <% p("dnssec.zones").each do |zone| %>
-"$PACKAGE_DIR/bin/pdnsutil" --config-dir="$JOB_DIR/etc" secure-zone "<%= zone %>"
+pdnsutil --config-dir="$JOB_DIR/etc" secure-zone "<%= zone %>"
 <% end %>
+
+<% p("dnssec.keys").each do |key| %>
+keyfile=$(mktemp)
+cat > "${keyfile}" << EOF
+<%= key["key"] %>
+EOF
+pdnsutil import-zone-key "<%= key["zone"] %>" "${keyfile}" "<%= key["active"] %>" "<%= key["type"] %>"
+rm "${keyfile}"
+<% done %>
