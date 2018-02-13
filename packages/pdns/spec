@@ -5,4 +5,4 @@ dependencies:
 - boost
 
 files:
- - pdns/pdns-4.1.0.tar.bz2 # from https://downloads.powerdns.com/releases/pdns-4.1.0.tar.bz2
+ - pdns/pdns-4.*.tar.bz2 # from https://downloads.powerdns.com/releases/pdns-4.1.0.tar.bz2
