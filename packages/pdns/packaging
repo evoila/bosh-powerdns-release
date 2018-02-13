@@ -2,8 +2,8 @@
 set -e
 NUM_JOBS=$(( $(getconf _NPROCESSORS_ONLN) + 1 ))
 
-tar xf pdns/pdns-4.1.0.tar.bz2
-cd pdns-4.1.0/
+tar xf pdns/pdns-*.tar.bz2
+cd pdns-*/
 export CPPFLAGS="-I/var/vcap/packages/boost/include"
 export LDFLAGS="-L/var/vcap/packages/boost/lib/"
 ./configure --prefix=$BOSH_INSTALL_TARGET --with-modules="bind random"
