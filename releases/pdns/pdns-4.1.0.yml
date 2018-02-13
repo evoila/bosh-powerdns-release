@@ -1,0 +1,25 @@
+name: pdns
+version: 4.1.0
+commit_hash: bc4833e
+uncommitted_changes: false
+jobs:
+- name: pdns
+  version: 4b78ad89a0252de9cbcd2c0ea32a1660287c8c2b
+  fingerprint: 4b78ad89a0252de9cbcd2c0ea32a1660287c8c2b
+  sha1: 57022c2976e0c0c0ad4611dfda81f1a6d99abb8b
+packages:
+- name: boost
+  version: cf7d46b6e379342b790030c76beb09b97a650d7a
+  fingerprint: cf7d46b6e379342b790030c76beb09b97a650d7a
+  sha1: 9f1ae831bca4925f323bf5a402eb31f46cec197e
+  dependencies: []
+- name: pdns
+  version: 4f24b5408db202519b4da14a61ae7a60f94bc6b8
+  fingerprint: 4f24b5408db202519b4da14a61ae7a60f94bc6b8
+  sha1: a61d9cd7f0d76ff689f331a5741c22c142f4bbab
+  dependencies:
+  - boost
+license:
+  version: c69cb659b2949f0e6d69e90aaf678ac3c83448a5
+  fingerprint: c69cb659b2949f0e6d69e90aaf678ac3c83448a5
+  sha1: 6bbf3757b99298d0528a53cd6fc21e5d9b99c323
