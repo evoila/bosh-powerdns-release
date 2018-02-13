@@ -2,7 +2,12 @@ boost/boost_1_64_0.tar.bz2:
   size: 80472424
   object_id: 9621b896-5d25-4c7d-572f-78f3fc98bdbb
   sha: 51421ef259a4530edea0fbfc448460fcc5c64edb
+sqlite/sqlite-autoconf-3210000.tar.gz:
+  size: 2568942
+  object_id: 87e3f6a2-e145-41e8-7999-927bf03f639c
+  sha: f56fe3407d8297fc0a68a058f4c9e6b77e83575c
 pdns/pdns-4.1.0.tar.bz2:
   size: 1116905
   object_id: fa2b6a1c-df04-46eb-4bed-421c4a8c17ee
   sha: f786d27d60032bf268a63a88c77396e31f6622b1
+  

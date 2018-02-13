@@ -1,0 +1,33 @@
+#!/bin/bash
+set -e
+
+JOB_NAME=pdns
+JOB_DIR="/var/vcap/jobs/$JOB_NAME"
+PACKAGE_DIR="/var/vcap/packages/$JOB_NAME"
+
+export PATH="${PATH}:${PACKAGE_DIR}/bin"
+
+<% p("dnssec.zones").each do |zone| %>
+# Secure the zone
+pdnsutil --config-dir="$JOB_DIR/etc" secure-zone "<%= zone["zone"] %>" || true
+
+# Make sure we're inserting our own keys into the zone if provided
+<% zone["keys"].each do |key| %>
+keyfile=$(mktemp)
+cat > "${keyfile}" << EOF
+<%= key["key"] %>
+EOF
+pdnsutil --config-dir="$JOB_DIR/etc" import-zone-key "<%= zone["zone"] %>" "${keyfile}" "<%= key["active"] %>" "<%= key["type"] %>"
+rm "${keyfile}"
+<% end %>
+
+# If we provide keys, remove stock CSK generated during secure-zone if exists
+<% if zone["keys"].length %>
+CSK_ID=$(pdnsutil --config-dir="$JOB_DIR/etc" list-keys | grep CSK | awk '{print $5'})
+pdnsutil --config-dir="$JOB_DIR/etc" remove-zone-key "<%= zone["zone"] %>" "$CSK_ID" || true
+<% end %>
+
+# clean up any changes that might affect the DNSSEC signatures
+pdnsutil --config-dir="$JOB_DIR/etc" rectify-zone "<%= zone["zone"] %>"
+
+<% end %>

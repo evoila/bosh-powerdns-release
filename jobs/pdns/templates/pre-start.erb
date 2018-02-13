@@ -1,0 +1,12 @@
+#!/bin/bash
+set -e
+
+JOB_NAME=pdns
+JOB_DIR="/var/vcap/jobs/$JOB_NAME"
+PACKAGE_DIR="/var/vcap/packages/$JOB_NAME"
+
+<% if p("dnssec.enabled") %>
+  if [ ! -f "$JOB_DIR/etc/dnssec.db" ]; then
+    "$PACKAGE_DIR/bin/pdnsutil" --config-dir="$JOB_DIR/etc" create-bind-db "$JOB_DIR/etc/dnssec.db"
+  fi
+<% end %>
