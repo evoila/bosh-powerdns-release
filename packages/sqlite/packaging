@@ -2,8 +2,8 @@
 set -ex
 NUM_JOBS=$(( $(getconf _NPROCESSORS_ONLN) + 1 ))
 
-tar xf sqlite/sqlite-autoconf-3210000.tar.gz
-cd sqlite-autoconf-3210000
+tar xf sqlite/sqlite-autoconf-*.tar.gz
+cd sqlite-autoconf-*
 ./configure --prefix=$BOSH_INSTALL_TARGET
 make -j $NUM_JOBS
 make install
