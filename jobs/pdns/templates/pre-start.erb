@@ -3,10 +3,17 @@ set -e
 
 JOB_NAME=pdns
 JOB_DIR="/var/vcap/jobs/$JOB_NAME"
+STORE_DIR="/var/vcap/store/$JOB_NAME"
 PACKAGE_DIR="/var/vcap/packages/$JOB_NAME"
+
+mkdir -p "${STORE_DIR}"
 
 <% if p("dnssec.enabled") %>
   if [ ! -f "$JOB_DIR/etc/dnssec.db" ]; then
     "$PACKAGE_DIR/bin/pdnsutil" --config-dir="$JOB_DIR/etc" create-bind-db "$JOB_DIR/etc/dnssec.db"
   fi
+<% end %>
+
+<% if p("mode") == "gsqlite3" %>
+  /var/vcap/packages/sqlite/bin/sqlite3 "${STORE_DIR}/<%= p("sqlite.database") %>" < "${JOB_DIR}/migrations/gsqlite3.sql"
 <% end %>
