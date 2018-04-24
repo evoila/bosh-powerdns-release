@@ -17,11 +17,8 @@ packages:
 - sqlite
 
 properties:
-  mode:
-    default: ""
-    description: Launch mode
   sqlite.database:
-    description: Name of sqlite database
+    description: Name of sqlite database, if using gsqlite3 backend
   named_conf:
     default: ''
     description: |
