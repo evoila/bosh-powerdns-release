@@ -1,0 +1,37 @@
+---
+name: pdns
+
+releases:
+- name: pdns
+  version: latest
+
+stemcells:
+- alias: ubuntu
+  os: ubuntu-trusty
+  version: latest
+
+instance_groups:
+- name: pdns
+  instances: 1
+  azs: [ z1 ]
+  vm_type: default
+  persistent_disk_type: default
+  stemcell: ubuntu
+  networks:
+  - name: default
+    static_ips: [ 10.244.0.34 ]
+  jobs:
+  - name: pdns
+    release: pdns
+    properties:
+      pdns_conf: |
+        launch=pipe
+        pipe-command=/var/vcap/jobs/pdns/bin/pipe.example.com.pl
+        local-ipv6=
+
+update:
+  canaries: 1
+  max_in_flight: 10
+  serial: false
+  canary_watch_time: 1000-60000
+  update_watch_time: 1000-60000
