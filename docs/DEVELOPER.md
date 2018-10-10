@@ -1,8 +1,8 @@
 ## Updating Releases
 
 ```
-export OLD_VERSION=4.0.4
-export VERSION=4.1.3
+export OLD_VERSION=4.1.3
+export VERSION=4.1.4
 cd ~/workspace/pdns-release
 git pull -r
 find packages/pdns -type f -print0 |

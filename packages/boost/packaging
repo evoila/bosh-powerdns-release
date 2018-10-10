@@ -2,8 +2,8 @@
 set -ex
 NUM_JOBS=$(( $(getconf _NPROCESSORS_ONLN) + 1 ))
 
-tar xf boost/boost_1_64_0.tar.bz2
-cd boost_1_64_0
+tar xf boost/boost_1_68_0.tar.bz2
+cd boost_1_68_0
 ./bootstrap.sh --prefix=$BOSH_INSTALL_TARGET
 # build always fails because it's missing unnecessary libraries; we make it succeed
 ./b2 -j $NUM_JOBS install || true

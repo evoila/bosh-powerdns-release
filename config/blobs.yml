@@ -1,8 +1,8 @@
-boost/boost_1_64_0.tar.bz2:
-  size: 80472424
-  object_id: 9621b896-5d25-4c7d-572f-78f3fc98bdbb
-  sha: 51421ef259a4530edea0fbfc448460fcc5c64edb
-pdns/pdns-4.1.3.tar.bz2:
-  size: 1114829
-  object_id: a6d18b91-11e9-409e-740d-972a93048bd4
-  sha: 6a9cf78eae842e5b6741731c2ad7e8d212530ee2
+boost/boost_1_68_0.tar.bz2:
+  size: 92155315
+  object_id: aeae3316-5ba0-4347-483b-887322865ca8
+  sha: 18863a7cae4d58ae85eb63d400f774f60a383411
+pdns/pdns-4.1.4.tar.bz2:
+  size: 1089376
+  object_id: 539fafcc-71c8-4a7d-4d26-b86f23403fc2
+  sha: 9cf7361e95a3c570c1d9d1d86417a1b24ae76463
