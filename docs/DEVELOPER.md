@@ -1,8 +1,10 @@
 ## Updating Releases
 
 ```
-export OLD_VERSION=4.1.3
-export VERSION=4.1.4
+export OLD_VERSION=4.1.4
+export VERSION=4.1.8
+cd ~/Downloads
+curl -OL https://downloads.powerdns.com/releases/pdns-${VERSION}.tar.bz2
 cd ~/workspace/pdns-release
 git pull -r
 find packages/pdns -type f -print0 |
@@ -15,10 +17,14 @@ bosh add-blob \
 vim config/blobs.yml
   # delete `pdns/pdns-${OLD_VERSION}.tar.bz2` stanza
 bosh create-release --force
-bosh -e vbox upload-release
-bosh -e vbox -n -d pdns \
+export BOSH_ENVIRONMENT=vbox
+bosh upload-release
+bosh -n -d pdns \
   deploy manifests/pdns-lite.yml --recreate
- # `bosh -e vbox vms`; browse to pdns VM
+bosh -n -d pdns ssh
+dig +short ns example.com @8.8.8.8
+dig +short ns example.com @localhost # should be different
+exit
 bosh upload-blobs
 bosh create-release \
   --final \
