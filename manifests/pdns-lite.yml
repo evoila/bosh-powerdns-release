@@ -1,8 +1,8 @@
 ---
-name: pdns
+name: bosh-powerdns-release
 
 releases:
-- name: pdns
+- name: bosh-powerdns-release
   version: latest
 
 stemcells:
@@ -18,16 +18,16 @@ instance_groups:
   persistent_disk_type: default
   stemcell: ubuntu
   networks:
-  - name: default
-    static_ips: [ 10.244.0.34 ]
+  - name: service
+    static_ips: [10.245.0.101]
   jobs:
   - name: pdns
-    release: pdns
-    properties:
-      pdns_conf: |
-        launch=pipe
-        pipe-command=/var/vcap/jobs/pdns/bin/pipe.example.com.pl
-        local-ipv6=
+    release: bosh-powerdns-release
+  properties:
+    powerdns:
+      postgresql:
+        host: 10.0.0.1
+        password: sample123
 
 update:
   canaries: 1

@@ -16,14 +16,15 @@
 
 set -e
 
-prefix=/var/vcap/packages/pdns
-exec_prefix=${prefix}
-BINARYPATH=${exec_prefix}/bin
-SBINARYPATH=${exec_prefix}/sbin
-RUNDIR=/var/vcap/sys/run/pdns
+JOB_NAME=pdns
+JOB_DIR=/var/vcap/jobs/$JOB_NAME
+PACKAGE_DIR=/var/vcap/packages/$JOB_NAME
+BINARYPATH=$PACKAGE_DIR/bin
+SBINARYPATH=$PACKAGE_DIR/sbin
+RUN_DIR=/var/vcap/sys/run/$JOB_NAME
 DAEMON_ARGS=""
-PIDFILE=$RUNDIR/pdns.pid
-LOGDIR=/var/vcap/sys/log/pdns
+PID_FILE=$RUN_DIR/$JOB_NAME.pid
+LOG_DIR=/var/vcap/sys/log/$JOB_NAME
 
 [ -f "$SBINARYPATH/pdns_server" ] || exit 0
 
@@ -32,8 +33,8 @@ LOGDIR=/var/vcap/sys/log/pdns
 [ "$START" = "no" ] && exit 0
 
 # Make sure that /var/run exists
-mkdir -p $RUNDIR
-cd $RUNDIR
+mkdir -p $RUN_DIR
+cd $RUN_DIR
 suffix=$(basename $0 | cut -d- -f2- -s)
 if [ -n "$suffix" ]
 then
@@ -44,7 +45,7 @@ else
 fi
 
 # make sure LOG dir exists
-mkdir -p $LOGDIR
+mkdir -p $LOG_DIR
 
 pdns_server="$SBINARYPATH/pdns_server $DAEMON_ARGS $EXTRAOPTS"
 
@@ -71,7 +72,7 @@ case "$1" in
 	stop)
 		echo -n "Stopping PowerDNS authoritative nameserver: "
 		# The monit way of stopping
-		kill $(cat $PIDFILE)
+		kill $(cat $PID_FILE)
 	;;
 
 
@@ -84,10 +85,10 @@ case "$1" in
 	start)
 		echo -n "Starting PowerDNS authoritative nameserver: "
 		# The monit way of starting up
-		( echo $BASHPID > $PIDFILE; exec \
-			>> $LOGDIR/pdns_server.stdout.log \
-			2>> $LOGDIR/pdns_server.stderr.log \
-			$pdns_server --daemon=no --guardian=yes --config-dir=/var/vcap/jobs/pdns/etc ) &
+		( echo $BASHPID > $PID_FILE; exec \
+			>> $LOG_DIR/pdns_server.stdout.log \
+			2>> $LOG_DIR/pdns_server.stderr.log \
+			$pdns_server --daemon=no --guardian=yes --config-dir=$JOB_DIR/config ) &
 	;;
 
 	force-reload | restart)

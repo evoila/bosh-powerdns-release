@@ -1,48 +1,55 @@
 ---
 name: pdns
 templates:
-  ctl.erb: bin/ctl
-  named.conf.erb: etc/named.conf
-  pdns.conf.erb: etc/pdns.conf
-  pipe.conf.erb: etc/pipe.conf
-  pipe.erb: bin/pipe
-  pipe.example.com.pl: bin/pipe.example.com.pl
-
+  bin/ctl: bin/ctl
+  config/named.conf.erb: config/named.conf
+  config/pdns.conf.erb: config/pdns.conf
+  config/pipe.conf.erb: config/pipe.conf
+  bin/pipe.erb: bin/pipe
+  bin/pipe.example.com.pl: bin/pipe.example.com.pl
 
 packages:
 - boost
 - pdns
 
 properties:
-  named_conf:
-    default: ''
-    description: |
-      The contents of named.conf (PowerDNS's BIND backend's configuration file)
-  pdns_conf:
-    default: |
-      launch=pipe
-      pipe-command=/var/vcap/jobs/pdns/bin/pipe.example.com.pl
-    description: |
-      The contents of pdns.conf (PowerDNS's configuration file).
-      The default configuration configures an authoritative server for
-      example.com, which can be queried via `nslookup webserver.example.com. instance's-ip`
-      or `dig webserver.example.com. @instance's-ip`.
-
-      If using a combination of the bind and pipe backends, `pdns_conf` should
-      look something like this:
-        launch=bind:first,pipe:second
-        slave=yes
-        bind-first-config=/var/vcap/jobs/pdns/etc/named.conf
-        pipe-second-command=/var/vcap/jobs/pdns/bin/pipe /var/vcap/jobs/pdns/etc/pipe.conf
-  pipe:
-    default: ''
-    description: |
-      The contents of pipe (PowerDNS's pipe backend's script).
-      A good example is the xip-pdns pipe backend:
-      https://github.com/basecamp/xip-pdns/blob/master/bin/xip-pdns
-  pipe_conf:
-    default: ''
-    description: |
-      The contents of [optional] pipe.conf (PowerDNS's pipe backend's configuration file)
-      A good example is the xip-pdns pipe backend's sample configuration file:
-      https://github.com/basecamp/xip-pdns/blob/master/etc/xip-pdns.conf.example
+  powerdns.local.address:
+    description: Local IP addresses to which we bind
+    default: 0.0.0.0
+  powerdns.local.port:
+    description: Local IP addresses to which we bind
+    default: 5300
+  powerdns.api.enabled:
+    description: Enables/disables the API yes/no
+    default: yes
+  powerdns.api.api_key:
+    description: Defines the API key being used
+    default: 0bce6168e0e9e7d1ceeed13417115bd67ebfb55516c082e96138c8f4357b2bba
+  powerdns.default.ttl:
+    description: Seconds a result is valid if not set otherwise
+    default: 3600
+  powerdns.webserver.enabled:
+    description: Start a webserver for monitoring
+    default: yes
+  powerdns.webserver.address:
+    description: IP Address of webserver to listen on
+    default: 0.0.0.0
+  powerdns.webserver.allow_from:
+    description: Webserver access is only allowed from these subnets
+    default: 0.0.0.0/0,::/0
+  powerdns.webserver.port:
+    description: Port of webserver to listen on
+    default: 8081
+  powerdns.postgresql.host:
+    description: Host (ip address) to connect to
+  powerdns.postgresql.port:
+    description: The port to connect to on gpgsql-host. Default is 5432
+    default: 5432
+  powerdns.postgresql.dbname:
+    description: Name of the database to connect to. Default is "pdns".
+    default: pdns
+  powerdns.postgresql.user:
+    description: User to connect as. Default is "powerdns".
+    default: powerdns
+  powerdns.postgresql.password:
+    description: The password to for gpgsql-user.
