@@ -1,6 +1,12 @@
 boost/boost_1_68_0.tar.bz2:
   size: 92155315
+  object_id: 3fd8c842-ae13-41f6-6ce3-8642157f0141
   sha: sha256:7f6130bc3cf65f56a618888ce9d5ea704fa10b462be126ad053e80e553d6d8b7
-pdns/pdns-4.1.8.tar.bz2:
-  size: 1116996
-  sha: sha256:94561132f46c08f646399511b680ce8cda150fd2b8e3d38c0b90b4187163e617
+pdns/pdns-4.1.11.tar.bz2:
+  size: 1118103
+  object_id: 2da5b289-14e4-42d2-465a-f621a1c39bd6
+  sha: sha256:754e4f0ce31118fef5dc470dc039e1f4e7b3ca6248074c9678a659508693b712
+postgres/postgresql-10.5.tar.bz2:
+  size: 20284578
+  object_id: 3141036f-6496-4010-4bf2-bb2fc259068d
+  sha: sha256:6c8e616c91a45142b85c0aeb1f29ebba4a361309e86469e0fb4617b6a73c4011

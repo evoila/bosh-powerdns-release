@@ -224,13 +224,13 @@ default-ttl=<%= p('powerdns.default.ttl') %>
 # launch	Which backends to launch and order to query them in
 #
 # launch=
-launch=pipe
+launch=gpgsql
 
 #################################
 # pipe-command	The pipe-command that needs to be issued
 #
 # pipe-command=
-pipe-command=/var/vcap/jobs/pdns/bin/pipe.example.com.pl
+#pipe-command=/var/vcap/jobs/pdns/bin/pipe.example.com.pl
 
 #################################
 # load-modules	Load this module - supply absolute or relative path
@@ -283,7 +283,7 @@ local-port=<%= p('powerdns.local.port') %>
 #################################
 # loglevel	Amount of logging. Higher is more. Do not set below 3
 #
-# loglevel=4
+loglevel=99
 
 #################################
 # lua-prequery-script	Lua script with prequery handler (DO NOT USE)
@@ -565,7 +565,7 @@ write-pid=yes
 # Host (ip address) to connect to.
 #
 # gpgsql-host
-gpsql-host=<%= p('powerdns.postgresql.host') %>
+gpgsql-host=<%= p('powerdns.postgresql.host') %>
 
 #################################
 # The port to connect to on gpgsql-host. Default: 5432

@@ -1,0 +1,33 @@
+#!/bin/bash
+set -eu
+
+mkdir -p ${BOSH_INSTALL_TARGET}/bosh
+
+# Detect # of CPUs so make jobs can be parallelized
+CPUS=$(grep -c ^processor /proc/cpuinfo)
+# Available variables
+# $BOSH_COMPILE_TARGET - where this package & spec'd source files are available
+# $BOSH_INSTALL_TARGET - where you copy/install files to be included in package
+export HOME=/var/vcap
+
+VERSION=10.5
+tar -xjf postgres/postgresql-${VERSION}.tar.bz2
+cd postgresql-${VERSION}/
+patch -p1 <<EOF
+diff -u -ur postgresql-${VERSION}.pristine/src/include/pg_config_manual.h postgresql-${VERSION}/src/include/pg_config_manual.h
+--- postgresql-${VERSION}.pristine/src/include/pg_config_manual.h	2016-02-08 16:12:28.000000000 -0500
++++ postgresql-${VERSION}/src/include/pg_config_manual.h	2016-11-01 22:21:21.000000000 -0400
+@@ -169,7 +169,7 @@
+  * here's where to twiddle it.  You can also override this at runtime
+  * with the postmaster's -k switch.
+  */
+-#define DEFAULT_PGSOCKET_DIR  "/tmp"
++#define DEFAULT_PGSOCKET_DIR  "/var/vcap/sys/run/postgres"
+ 
+ /*
+  * This is the default event source for Windows event log.
+EOF
+./configure --prefix ${BOSH_INSTALL_TARGET} \
+
+make world
+make install-world

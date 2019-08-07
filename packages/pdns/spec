@@ -3,6 +3,7 @@ name: pdns
 
 dependencies:
 - boost
+- postgres
 
 files:
- - pdns/pdns-4.1.8.tar.bz2 # from https://downloads.powerdns.com/releases/pdns-4.1.8.tar.bz2
+ - pdns/pdns-4.1.11.tar.bz2

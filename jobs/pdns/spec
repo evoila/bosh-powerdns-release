@@ -11,6 +11,7 @@ templates:
 packages:
 - boost
 - pdns
+- postgres
 
 properties:
   powerdns.local.address:

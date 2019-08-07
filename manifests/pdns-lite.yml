@@ -26,8 +26,8 @@ instance_groups:
   properties:
     powerdns:
       postgresql:
-        host: 10.0.0.1
-        password: sample123
+        host: 10.245.0.6
+        password: Dz4hkHMKDq8iOl8Afg8TsJmtcjTipF
 
 update:
   canaries: 1
