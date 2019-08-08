@@ -1,0 +1,65 @@
+---
+name: bosh-powerdns-release
+
+releases:
+- name: bosh-powerdns-release
+  version: latest
+- name: "postgres"
+  version: "38"
+  url: "https://bosh.io/d/github.com/cloudfoundry/postgres-release?v=38"
+  sha1: "23620deb20c34cefadff74c0e5bfdffaaea1a807"
+
+stemcells:
+- alias: default
+  os: ubuntu-xenial
+  version: latest
+
+variables:
+- name: api_key
+  type: password
+  options:
+    username: admin
+- name: database_credentials
+  type: user
+  options:
+    username: pdns
+
+instance_groups:
+- name: pdns
+  instances: 1
+  azs: [ z1 ]
+  vm_type: default
+  persistent_disk_type: 10GB
+  stemcell: default
+  networks:
+  - name: default
+  jobs:
+  - name: postgres
+    release: postgres
+    properties:
+      databases:
+        port: 5432
+        roles:
+        - name: ((database_credentials.username))
+          password: ((database_credentials.password))
+        databases:
+        - name: pdns
+          citext: true
+  - name: pdns
+    release: bosh-powerdns-release
+  properties:
+    powerdns:
+      api:
+        api_key: ((api_key))
+      postgresql: 
+        host: 127.0.0.1
+        user: ((database_credentials.username))
+        dbname: pdns
+        password: ((database_credentials.password))
+
+update:
+  canaries: 1
+  max_in_flight: 10
+  serial: false
+  canary_watch_time: 1000-60000
+  update_watch_time: 1000-60000
