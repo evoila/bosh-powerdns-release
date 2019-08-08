@@ -1,8 +1,8 @@
 ---
-name: bosh-powerdns-release
+name: powerdns
 
 releases:
-- name: bosh-powerdns-release
+- name: bosh-powerdns
   version: latest
 - name: "postgres"
   version: "38"
@@ -46,7 +46,7 @@ instance_groups:
         - name: pdns
           citext: true
   - name: pdns
-    release: bosh-powerdns-release
+    release: bosh-powerdns
   properties:
     powerdns:
       api:
