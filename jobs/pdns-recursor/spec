@@ -1,0 +1,55 @@
+---
+name: pdns-recursor
+templates:
+  ctl: bin/ctl
+  pdns-recursor.conf.erb: config/recursor.conf
+
+packages:
+- boost
+- luajit
+- pdns-recursor
+
+properties:
+  #pdns-recursor.local.from:
+  #  description: allow-from	If set, only allow these comma separated netmasks to recurse example allow-from=127.0.0.0/8, 10.0.0.0/8
+  #  default: 0.0.0.0
+
+  pdns-recursor.api.key:
+    description: api-key	Static pre-shared authentication key for access to the REST API
+    default: EimN1SLcNyYWg59Gh64pi3jjDP19Y3z2
+  pdns-recursor.client-tcp-timeout:
+    description: client-tcp-timeout	Timeout in seconds when talking to TCP clients
+    default: 2
+  pdns-recursor.forward-zone:
+    description: Zones for which we forward queries, comma separated domain=ip pairs. example example.com=localhost:5300,mydomain.com=localhost:5300
+    default: ""
+  pdns-recursor.local-port:
+    description: IP addresses to listen on, separated by spaces or commas. Also accepts ports.
+    default: 53
+  pdns-recursor.max-cache-bogus-ttl:
+    description: maximum number of seconds to keep a Bogus (positive or negative) cached entry in memory
+    default: 3600
+  pdns-recursor.max-cache-entries:
+    description: If set, maximum number of entries in the main cache
+    default: 10000
+  pdns-recursor.max-cache-ttl:
+    description: maximum number of seconds to keep a cached entry in memory
+    default: 86400
+  pdns-recursor.max-negative-ttl:
+    description: maximum number of seconds to keep a negative cached entry in memory
+    default: 360
+  pdns-recursor.max-packetcache-entries:
+    description: maximum number of entries to keep in the packetcache
+    default: 50000
+  pdns-recursor.max-tcp-clients:
+    description: Maximum number of simultaneous TCP clients
+    default: 128
+  pdns-recursor.webserver.enabled:
+    description: Start a webserver (for REST API)
+    default: no
+  pdns-recursor.webserver.loglevel:
+    description: Amount of logging in the webserver (none, normal, detailed)
+    default: normal
+  pdns-recursor.webserver.port:
+    description: Port of webserver to listen on
+    default: 8082

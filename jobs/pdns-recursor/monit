@@ -1,0 +1,5 @@
+check process pdns-recursor
+  with pidfile /var/run/pdns_recursor.pid
+  start program "/var/vcap/jobs/pdns-recursor/bin/ctl start"
+  stop program "/var/vcap/jobs/pdns-recursor/bin/ctl stop"
+  group vcap
