@@ -1,0 +1,14 @@
+# abort script on any command that exits with a non zero value
+set -ex
+NUM_JOBS=$(( $(getconf _NPROCESSORS_ONLN) + 1 ))
+
+tar xf luajit/LuaJIT-2.1.0-beta3.tar.gz 
+cd LuaJIT-2.1.0-beta3/
+
+sed -i "s,export PREFIX= /usr/local,export PREFIX= $BOSH_INSTALL_TARGET,g" Makefile
+make 
+make install 
+
+# sleep 10000
+# build always fails because it's missing unnecessary libraries; we make it succeed
+# ./b2 -j $NUM_JOBS install || true
