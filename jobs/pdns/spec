@@ -1,6 +1,7 @@
 ---
 name: pdns
 templates:
+  bin/insert_postgresql_schema.erb: bin/insert_postgresql_schema
   bin/ctl: bin/ctl
   config/named.conf.erb: config/named.conf
   config/pdns.conf.erb: config/pdns.conf

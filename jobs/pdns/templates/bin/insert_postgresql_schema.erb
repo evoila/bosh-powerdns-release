@@ -1,0 +1,9 @@
+#!/bin/bash
+echo "----------$(date)----------"
+echo "Ignore existing Errors" >&2
+
+until PGPASSWORD="<%= p('powerdns.postgresql.password') %>" $(ls /var/vcap/packages/postgres*/bin/psql | head -n1) -h <%= p('powerdns.postgresql.host') %> -d <%= p('powerdns.postgresql.dbname') %> -p <%= p('powerdns.postgresql.port') %> -U <%= p('powerdns.postgresql.user') %> -f $(ls /var/vcap/packages/pdns*/share/doc/pdns/schema.pgsql.sql) -q -t; do
+  echo "wait for postgresql conncection"
+  sleep 5;
+done
+exit 0

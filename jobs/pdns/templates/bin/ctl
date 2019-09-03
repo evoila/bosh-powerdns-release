@@ -32,6 +32,12 @@ DAEMON_ARGS=""
 PID_FILE=$RUN_DIR/$JOB_NAME.pid
 LOG_DIR=/var/vcap/sys/log/$JOB_NAME
 
+mkdir -p $LOG_DIR
+
+#redirect output and print header
+exec >> $LOG_DIR/ctl.stdout.log
+exec 2>> $LOG_DIR/ctl.stderr.log
+
 [ -f "$SBINARYPATH/pdns_server" ] || exit 0
 
 [ -r /etc/default/pdns ] && . /etc/default/pdns
@@ -89,6 +95,7 @@ case "$1" in
 	;;
 
 	start)
+                $JOB_DIR/bin/insert_postgresql_schema
 		echo -n "Starting PowerDNS authoritative nameserver: "
 		# The monit way of starting up
 		( echo $BASHPID > $PID_FILE; exec \
