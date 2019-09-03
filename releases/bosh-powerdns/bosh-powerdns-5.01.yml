@@ -1,0 +1,51 @@
+name: bosh-powerdns
+version: "5.01"
+commit_hash: c69c82f
+uncommitted_changes: false
+jobs:
+- name: pdns
+  version: 698d4a12850ea38cfd73cb334eeac16529d88127cd4b75e3f8ea41056b83e480
+  fingerprint: 698d4a12850ea38cfd73cb334eeac16529d88127cd4b75e3f8ea41056b83e480
+  sha1: sha256:b85bbc863252c3116b40e7f4fbaf73e8391bab52608c1929fe992af9c9df12a1
+  packages:
+  - boost
+  - pdns
+  - postgres
+- name: pdns-recursor
+  version: 0a2e844ee25332ea8af9a9eca36a1b41760927ebec83d9b9001cfadeef68a0cf
+  fingerprint: 0a2e844ee25332ea8af9a9eca36a1b41760927ebec83d9b9001cfadeef68a0cf
+  sha1: sha256:5e1b3579038fdab4f98f24c86c9753b29c215f092899e83c26e19b7b5fb38cb4
+  packages:
+  - boost
+  - luajit
+  - pdns-recursor
+packages:
+- name: boost
+  version: eb8fab294254024690cc2e467b699fc5b02972e55b4d5699099e4f8d5c13274f
+  fingerprint: eb8fab294254024690cc2e467b699fc5b02972e55b4d5699099e4f8d5c13274f
+  sha1: sha256:48d93de85df63f9f23c53e40e22b242147edda58bf2b5d7ced8751fa6ffa5e9e
+  dependencies: []
+- name: luajit
+  version: 9b21f4eb39437756c0227ddb048c2b9890bd22ec354194624d274285c3d1dfea
+  fingerprint: 9b21f4eb39437756c0227ddb048c2b9890bd22ec354194624d274285c3d1dfea
+  sha1: sha256:6feae421c62cd50a0c48c2418051e30961ac52042e46bf72fc4172634519ae69
+  dependencies: []
+- name: pdns
+  version: 86ff25f25986524f6b7e42b0a68f2be29825f4119517490a7c5290dd5df9fb99
+  fingerprint: 86ff25f25986524f6b7e42b0a68f2be29825f4119517490a7c5290dd5df9fb99
+  sha1: sha256:091c366e975f2a7984a50b78958c4462fb2aad315e0a5fc5265d4285bdbaa6a5
+  dependencies:
+  - boost
+  - postgres
+- name: pdns-recursor
+  version: 0cb05922c5920c6852eacca6b7725df62daef09a6b390f466b69ccd06a868334
+  fingerprint: 0cb05922c5920c6852eacca6b7725df62daef09a6b390f466b69ccd06a868334
+  sha1: sha256:95167987d6a93773dc63e6ca5885802d078c7a7dee1d25d0615d25da0d0a488b
+  dependencies:
+  - boost
+  - luajit
+- name: postgres
+  version: eeba4594ff4c2c9400089fe49a2a27d09b153fa6501a459c3e5fe52cd8a448a4
+  fingerprint: eeba4594ff4c2c9400089fe49a2a27d09b153fa6501a459c3e5fe52cd8a448a4
+  sha1: sha256:c21bbb405e2feed9c5f69fa8855c02348d99387f2e10e70237f99d84a4be60b7
+  dependencies: []
