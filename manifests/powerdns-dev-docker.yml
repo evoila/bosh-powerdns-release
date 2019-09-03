@@ -1,5 +1,5 @@
 ---
-name: bosh-powerdns
+name: powerdns
 
 releases:
 - name: bosh-powerdns
@@ -25,29 +25,11 @@ variables:
     username: pdns
 
 instance_groups:
-- name: pdns-recursor
-  vm_extensions: 
-  - dns
-  - all_ports
-  instances: 1
-  azs: [ z1 ]
-  vm_type: default
-  persistent_disk_type: 5G
-  stemcell: default
-  networks:
-  - name: default
-  jobs:
-  - name: pdns-recursor
-    release: bosh-powerdns
-  properties:
-    pdns-recursor:
-      webserver:
-        enabled: no
 - name: pdns
   instances: 1
   azs: [ z1 ]
   vm_type: default
-  persistent_disk_type: 5G
+  persistent_disk_type: default
   stemcell: default
   networks:
   - name: default
@@ -81,10 +63,3 @@ update:
   serial: false
   canary_watch_time: 1000-60000
   update_watch_time: 1000-60000
-
-vm_extensions:
-- name: dns
-  cloud_properties:
-    ports:
-    - 53/tcp
-    - 53/udp

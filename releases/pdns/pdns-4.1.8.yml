@@ -11,11 +11,6 @@ jobs:
   - boost
   - pdns
 packages:
-- name: boost
-  version: c3d6d65013f4fb690a898e0da47a0e21af75e4cb105436346bea372bf4dd572d
-  fingerprint: c3d6d65013f4fb690a898e0da47a0e21af75e4cb105436346bea372bf4dd572d
-  sha1: sha256:07f4b8ece4537fe9e0cc84afd3f5a39557fe21bd041152bf2018774737e5535a
-  dependencies: []
 - name: pdns
   version: 0bce6168e0e9e7d1ceeed13417115bd67ebfb55516c082e96138c8f4357b2bba
   fingerprint: 0bce6168e0e9e7d1ceeed13417115bd67ebfb55516c082e96138c8f4357b2bba
