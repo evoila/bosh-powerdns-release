@@ -21,7 +21,7 @@ properties:
     description: client-tcp-timeout	Timeout in seconds when talking to TCP clients
     default: 2
   pdns-recursor.forward-zone:
-    description: Zones for which we forward queries, comma separated domain=ip pairs. example example.com=localhost:5300,mydomain.com=localhost:5300
+    description: Zones for which we forward queries, comma separated domain=ip pairs. example example.com=127.0.0.1:5300,mydomain.com=127.0.0.1:5300
     default: ""
   pdns-recursor.local-port:
     description: IP addresses to listen on, separated by spaces or commas. Also accepts ports.

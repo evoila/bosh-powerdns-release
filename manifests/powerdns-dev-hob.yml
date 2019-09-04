@@ -26,7 +26,7 @@ variables:
 
 instance_groups:
 - name: pdns
-  instances: 1
+  instances: 2
   azs: [ z1 ]
   vm_type: default
   persistent_disk_type: 10GB
@@ -47,15 +47,23 @@ instance_groups:
           citext: true
   - name: pdns
     release: bosh-powerdns
-  properties:
-    powerdns:
-      api:
-        api_key: ((api_key))
-      postgresql: 
-        host: 127.0.0.1
-        user: ((database_credentials.username))
-        dbname: pdns
-        password: ((database_credentials.password))
+    properties:
+      powerdns:
+        api:
+          api_key: ((api_key))
+        postgresql: 
+          host: 127.0.0.1
+          user: ((database_credentials.username))
+          dbname: pdns
+          password: ((database_credentials.password))
+  - name: pdns-recursor
+    release: bosh-powerdns
+    properties:
+      pdns-recursor:
+        api:
+          key: ((api_key))
+        forward-zone: first.local=127.0.0.1:5300,second.local=127.0.0.1:5300
+
 
 update:
   canaries: 1
